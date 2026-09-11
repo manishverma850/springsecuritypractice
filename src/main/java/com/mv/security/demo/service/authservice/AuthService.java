@@ -2,8 +2,13 @@ package com.mv.security.demo.service.authservice;
 
 import com.mv.security.demo.dtos.RegisterRequestDto;
 import com.mv.security.demo.dtos.RegisterResponseDto;
+import com.mv.security.demo.dtos.logindto.LoginRequestDTO;
+import com.mv.security.demo.dtos.logindto.LoginResponseDTO;
 import com.mv.security.demo.entity.userentity.User;
 import com.mv.security.demo.repository.UserRepository;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +21,15 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository,PasswordEncoder passwordEncoder) {
+    private final AuthenticationManager authenticationManager;
+
+    public AuthService
+            (UserRepository userRepository,
+             PasswordEncoder passwordEncoder,
+             AuthenticationManager authenticationManager) {
         this.repository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
     }
     public RegisterResponseDto registerUser(RegisterRequestDto requestDto) {
 
@@ -39,5 +50,14 @@ public class AuthService {
 
         return new RegisterResponseDto
                 (user2.getId(),user2.getUsername());
+    }
+
+    public LoginResponseDTO login(LoginRequestDTO loginRequest) {
+        Authentication authentication = authenticationManager.authenticate
+                (new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
+
+        User user = (User) authentication.getPrincipal();
+
+        return new LoginResponseDTO(user.getUsername());
     }
 }

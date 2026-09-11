@@ -2,6 +2,8 @@ package com.mv.security.demo.controller.authcontroller;
 
 import com.mv.security.demo.dtos.RegisterRequestDto;
 import com.mv.security.demo.dtos.RegisterResponseDto;
+import com.mv.security.demo.dtos.logindto.LoginRequestDTO;
+import com.mv.security.demo.dtos.logindto.LoginResponseDTO;
 import com.mv.security.demo.service.authservice.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.server.csrf.CsrfToken;
@@ -27,8 +29,11 @@ public class AuthController {
         return ResponseEntity.ok(responseDto);
 
     }
-    @GetMapping
-    public CsrfToken csrfToken(CsrfToken csrfToken1) {
-        return csrfToken1;
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login
+            (@RequestBody LoginRequestDTO loginRequestDTO){
+
     }
+
 }
