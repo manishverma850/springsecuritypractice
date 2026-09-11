@@ -6,6 +6,7 @@ import com.mv.security.demo.dtos.logindto.LoginRequestDTO;
 import com.mv.security.demo.dtos.logindto.LoginResponseDTO;
 import com.mv.security.demo.entity.userentity.User;
 import com.mv.security.demo.repository.UserRepository;
+import com.mv.security.demo.userdetail.CustomUserDetail;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -56,7 +57,7 @@ public class AuthService {
         Authentication authentication = authenticationManager.authenticate
                 (new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
 
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetail user =(CustomUserDetail) authentication.getPrincipal();
 
         return new LoginResponseDTO(user.getUsername());
     }

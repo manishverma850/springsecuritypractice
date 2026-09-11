@@ -14,6 +14,8 @@ public class CustomUserDetail implements UserDetails {
 
     public CustomUserDetail(com.mv.security.demo.entity.userentity.User user) {
 
+        this.user = user;
+
     }
 
     @Override
