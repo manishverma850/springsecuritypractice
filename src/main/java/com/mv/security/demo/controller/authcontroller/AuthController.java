@@ -1,0 +1,34 @@
+package com.mv.security.demo.controller.authcontroller;
+
+import com.mv.security.demo.dtos.RegisterRequestDto;
+import com.mv.security.demo.dtos.RegisterResponseDto;
+import com.mv.security.demo.service.authservice.AuthService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.server.csrf.CsrfToken;
+import org.springframework.security.web.server.csrf.DefaultCsrfToken;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponseDto>
+    registerUser(@RequestBody RegisterRequestDto requestDto) {
+
+        RegisterResponseDto responseDto = authService.registerUser(requestDto);
+
+        return ResponseEntity.ok(responseDto);
+
+    }
+    @GetMapping
+    public CsrfToken csrfToken(CsrfToken csrfToken1) {
+        return csrfToken1;
+    }
+}
